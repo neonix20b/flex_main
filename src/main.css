@@ -1,0 +1,50 @@
+global{
+font-family: Verdana; 
+themeColor: #FF8400;
+backgroundAlpha: 0.45;
+}
+
+Alert{
+    backgroundAlpha: 0.75;
+    backgroundColor: white;
+    borderAlpha: 0.5;
+    borderColor: white;
+    dropShadowEnabled: true;
+    color: #0b333c;
+}
+
+adept{
+    backgroundAlpha: 0.9;
+}
+
+.panelbg{
+    backgroundAlpha: 0.7;
+}
+        
+Application{
+	background-image: "images/moscow.jpg";
+	/*background-size: 100%;*/
+	/*backgroundSize: "100%";*/
+	background-position: center;
+	background-color: white;
+	backgroundAlpha: 1;
+	
+}
+
+TextArea{
+    backgroundColor: white;
+}
+.paddPanel{
+	padding-left: 20px;
+}
+.freetable{
+	border-color: #000000;
+}
+
+.window{
+	modalTrasparancy: 0.2;
+	backgroundAlpha: 0.75;
+	modalTransparencyBlur: 5;
+	modalTransparencyColor: #000000;
+	modalTransparencyDuration: 500;
+}

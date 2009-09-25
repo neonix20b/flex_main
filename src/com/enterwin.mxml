@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" layout="vertical" width="262" height="142" title="Авторизация" styleName="window" isPopUp="true" showCloseButton="true" horizontalAlign="center" verticalAlign="middle">
+	<mx:Script><![CDATA[
+			import mx.controls.Alert;
+			import mx.managers.PopUpManager;
+			import mx.core.IFlexDisplayObject;
+
+			[Bindable]
+			public static var userinfo:XML = new XML;
+			private var dBox:IFlexDisplayObject;
+
+			private function enter():void{
+				var loader:URLLoader = new URLLoader();
+				dBox = this as IFlexDisplayObject;
+				var request:URLRequest = new URLRequest("http://oxnull.net/account/login.xml");
+				var variables:URLVariables = new URLVariables();
+				variables.ln = new String(CRYPTER.encode(login.text));
+				variables.pd = new String(CRYPTER.encode(password.text));
+				variables.remember_me = new String(remember.selected.toString());
+				request.data = variables;
+				enterbu.enabled=false;
+				enterbu.label='Вхожу';
+				request.method = URLRequestMethod.POST;
+				loader.load(request);
+				loader.addEventListener(Event.COMPLETE, onComplete);
+
+				function onComplete(event:Event):void {
+					var loader:URLLoader = URLLoader(event.target);
+					if(loader.data != "error"){
+						userinfo=XML(loader.data);
+						if(userinfo.status.toString()=='0'){
+							parentApplication.rebuildlabel="Создается";
+							parentApplication.rebuildbool=false;
+						}
+						if(userinfo.status.toString()=='1'){
+							parentApplication.rebuildlabel="Пересоздается";
+							parentApplication.rebuildbool=false;
+						}
+						PopUpManager.removePopUp(dBox);
+						parentApplication.oldpass=password.text;
+						//parentApplication.loadquotas();
+						//parentApplication.enterok();
+						parentApplication.whoiam();
+							//parentApplication.load_service();
+					}
+					else{
+						Alert.show("Неверный логин или пароль. Убедись, что в поле \"Логин\" вводишь название сайта (твой_логин.oxnull.net)","Ахтунг!");
+					}
+				}
+			}
+		]]>
+	</mx:Script>
+	<mx:Grid>
+		<mx:GridRow width="100%" height="100%">
+			<mx:GridItem width="100%" height="100%">
+				<mx:Label text="Логин:"/>
+			</mx:GridItem>
+			<mx:GridItem width="100%" height="100%">
+				<mx:TextInput id="login"/>
+			</mx:GridItem>
+		</mx:GridRow>
+		<mx:GridRow width="100%" height="100%" verticalAlign="middle">
+			<mx:GridItem width="100%" height="100%">
+				<mx:Label text="Пароль:"/>
+			</mx:GridItem>
+			<mx:GridItem width="100%" height="100%">
+				<mx:TextInput displayAsPassword="true" id="password"/>
+			</mx:GridItem>
+		</mx:GridRow>
+		<mx:GridRow width="100%" height="100%" verticalAlign="middle">
+			<mx:GridItem width="100%" height="100%">
+			</mx:GridItem>
+			<mx:GridItem width="100%" height="100%" horizontalAlign="right" verticalAlign="middle">
+				<mx:CheckBox label="Запомнить!" id="remember"/>
+				<mx:Button label="Вход" click="enter()" id="enterbu"/>
+			</mx:GridItem>
+		</mx:GridRow>
+	</mx:Grid>
+</mx:TitleWindow>

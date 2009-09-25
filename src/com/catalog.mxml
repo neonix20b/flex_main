@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml" initialize="load_tag_list()" xmlns:com="com.*" verticalGap="0">
+	<mx:Script><![CDATA[
+			import mx.states.SetStyle;
+			import mx.containers.HBox;
+			import mx.controls.Label;
+			import mx.controls.Alert;
+			
+			[Bindable]private var to_tags_b:Boolean = new Boolean(false);
+			private var tag_list:XMLList;
+			
+			private function gotourl(event:Event):void{
+				if(event==null||event.target.text=="")return void;
+				var request:URLRequest=new URLRequest("http://" + event.target.text);
+				navigateToURL(request, "_blank");
+			}
+			
+			private function show_load():void{
+				vb.removeAllChildren();
+				var lbl:truelabel = new truelabel;
+				lbl.text="Немного подождите, идет загрузка...";
+				lbl.setStyle("fontSize","12");
+				vb.addChild(lbl);
+			}
+			
+			public function load_tag_list():void{
+				to_tags_b=false;
+				show_load();
+				var loader:URLLoader = new URLLoader();
+				var request:URLRequest = new URLRequest("http://oxnull.net/flex/tag_control/list.xml");
+				var variables:URLVariables = new URLVariables();
+				variables.p = new String('p');
+				request.method = URLRequestMethod.POST;
+				request.data = variables;
+				loader.load(request);
+				loader.addEventListener(Event.COMPLETE, onComplete);
+				function onComplete(event:Event):void{
+					var loader:URLLoader = URLLoader(event.target);				
+					tag_list=(new XML(loader.data)).children();
+					//clientsXML=clientsXML+clientsXML+clientsXML+clientsXML+clientsXML+clientsXML+clientsXML+clientsXML+clientsXML+clientsXML+clientsXML;
+					procid_tags(tag_list);
+					invalidateDisplayList()
+					invalidateProperties();
+					invalidateSize();
+				}
+			}
+			
+			private function procid_tags(clientsXML:XMLList):void{
+				var allwidth:Number = new Number(0);
+				var hb:HBox = null;
+				var size:Number = new Number(9)
+				to_tags_b=false;
+				vb.removeAllChildren();
+				vb.invalidateSize();
+				
+				for each(var xml:XML in clientsXML)
+					{
+						var lbl:truelabel = new truelabel;
+						size=9;
+						lbl.text=xml.name;
+						lbl.addEventListener(MouseEvent.CLICK, tag_click);
+						size += Number(xml.count);
+						//lbl.text+=size.toString();
+						//size +=5;
+						if(size>18)size=18;
+						lbl.setStyle("fontSize",size.toString());
+						if(allwidth==0 || allwidth+lbl.text.length*(size-2) + 0 > vb.width){
+							hb = new HBox;
+							hb.setStyle("horizontalGap","0");
+							hb.setStyle("horizontalAlign","center");
+							hb.setStyle("verticalAlign","middle");
+							hb.percentWidth=100;
+							vb.addChild(hb);
+							allwidth=0;
+							//hb.invalidateSize();
+							//hb.invalidateProperties();
+							hb.invalidateDisplayList()
+						}
+						allwidth += lbl.text.length*(size-2) + 0;
+						hb.addChild(lbl);
+					}
+			}
+			
+			private function tag_click(event:Event):void{
+				to_tags_b=true;
+				show_load();
+				var clientsXML:XMLList;
+				var loader:URLLoader = new URLLoader();
+				var request:URLRequest = new URLRequest("http://oxnull.net/flex/tag_control/find.xml");
+				var variables:URLVariables = new URLVariables();
+				variables.tags = new String(event.target.text);
+				request.data = variables;
+				request.method = URLRequestMethod.POST;
+				loader.load(request);
+				loader.addEventListener(Event.COMPLETE, onComplete2);
+				
+				function onComplete2(event:Event):void{
+					vb.removeAllChildren();
+					var loader:URLLoader = URLLoader(event.target);
+					clientsXML=(new XML(loader.data)).children();
+					for each(var xml:XML in clientsXML)
+					{
+						var vb2:VBox = new VBox;
+						var lbl:truelabel = new truelabel;
+						vb2.setStyle("verticalGap","0");
+						lbl.text=xml.url;
+						lbl.setStyle("fontSize","14"); //fontSize=18;
+						lbl.height=22;
+						lbl.addEventListener(MouseEvent.CLICK, gotourl);
+
+						var hb:HBox = new HBox;
+						hb.maxWidth=470;
+						//hb.setStyle("horizontalScrollPolicy","off");
+						hb.horizontalScrollPolicy="off";
+//////////////////////////////////////////////
+						for each(var tag:String in xml.tags.children()){
+							var lbl1:truelabel = new truelabel;
+							lbl1.text=tag;
+							lbl1.allColor=0x9d9d9d;
+							lbl1.addEventListener(MouseEvent.CLICK, tag_click);
+							hb.addChild(lbl1);
+						}
+						hb.setStyle("horizontalGap","0");
+						hb.setStyle("verticalAlign","middle");
+						//hb.setStyle("paddingTop","-5");
+						vb2.setStyle("verticalGap","0");
+						vb2.addChild(lbl);
+						vb2.addChild(hb);
+						vb.addChild(vb2);
+					}
+					invalidateDisplayList();
+					invalidateProperties();
+					invalidateSize();
+				}
+			}
+
+		]]>
+	</mx:Script>
+	<mx:HBox width="100%">
+		<mx:Spacer width="100%"/>
+		<com:truelabel text="К тегам!" visible="{to_tags_b}" click="procid_tags(tag_list)"/>
+	</mx:HBox>
+	<mx:VBox id="vb" width="100%" height="100%" verticalGap="4" maxWidth="490"/>
+</mx:VBox>

@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" 
+				xmlns:comp="com.*"
+				layout="vertical" horizontalAlign="center" 
+				initialize="init()"
+				usePreloader="false"
+				verticalAlign="top" backgroundGradientAlphas="[1.0, 1.0]" backgroundGradientColors="[#FFFFFF, #E7E4E4]" backgroundColor="#FFFFFF" xmlns:ns1="com.adobe.flex.extras.controls.*" xmlns:ns2="auto.samples.CustomizeAutoComplete.*" xmlns:ns3="auto.samples.RestaurantFinder.*">
+	<mx:Style source="main.css"/>
+	<mx:Script source="oxmain.as" />
+	<mx:HBox width="100%">
+		<mx:Spacer width="100%"/>
+		<mx:LinkButton label="Регистрация" click="gotourl('wiki.oxnull.net/index.php/%D0%90%D0%B4%D0%B5%D0%BF%D1%82-%D1%86%D0%B5%D0%BD%D1%82%D1%80')" fontSize="12" textDecoration="normal" fontStyle="normal" id="reg_id"/>
+		<mx:LinkButton label="Вход" click="showenter()" id="enterbutton" fontSize="12" textDecoration="normal" fontStyle="normal"/>
+	</mx:HBox> 
+	<mx:VBox height="100%" width="100%" horizontalAlign="center" verticalAlign="middle">
+		<comp:truelabel text="Нуль-кузница: сложное станет простым" fontFamily="Courier New" fontSize="19" fontWeight="bold" textAlign="center"  id="main_title" allColor="0x0b333c" buttonCursor="false"/>
+		<mx:ViewStack id="viewstack1" width="514" paddingBottom="0">
+			<mx:TabNavigator width="512" paddingBottom="0" height="565" id="tab_nav">
+				<mx:Panel label="Главная" width="100%" height="100%" layout="horizontal" title="Нуль-кузница: Шаг в будущее с oxnull.net" styleName="panelbg">
+					<mx:TextArea id="hellotext" width="100%" height="100%" styleSheet="{myCSS}" editable="false" wordWrap="true" enabled="true">
+						<mx:htmlText><![CDATA[
+	<b>Веб-сайты для всех</b>
+Вы думаете создавать сайты сложно? С нуль-кузницей вы легко этому научитесь. Создайте свой собственный сайт используя готовые темы. Добавьте фотографии, картинки, текст, опрос или просто раздвиньте границы возможностей новыми компонентами. Ведь теперь это так просто, можно добавить именно тех функций, что нужны именно вам, и сделать абсолютно уникальный сайт.
+
+	<b>Веб-сайт вашей мечты</b>
+Компьютер и Internet — это всё, что вам нужно для создания и развития своего собственного сайта. Сначала, после регистрации, выберите одну из тем. Любая тема включает в себя фон, подборку шрифтов и цветов — все страницы вашего сайта будут сочетаться друг с другом.
+
+Затем добавьте немного информации о том, для кого этот сайт и кто его делает. Так же найдете подробное описание по созданию домашней страницы, коллективного сайта, фотоальбома, блога, форума и многого другого. Вы можете создать сколько угодно страниц.
+
+Вам не придётся разбираться в HTML-коде или овладевать сложными программами для создания сайтов. Ничто не помешает вам создать удивительный сайт.
+
+	<b>Вместе мы сила</b>
+Появились вопросы? Отлично, только у растений нет вопросов. В любой момент сможете воспользоваться всей силой ox-сообщества и прояснить любой вопрос, даже не обязательно касающийся сайта, ведь мы тоже люди и интересуемся очень многим. Присоединяйся!
+
+	<b>Форум</b>
+Наш <b><a href="http://offtop.oxnull.net" target="_blank">форум</a></b> не только поможет решить технические вопросы, но и найти друзей! Здесь всегда можно найти единомышленников и обсудить насущные проблемы. Но и это не самое главное! А что главное? Да просто присоединяйся и узнаешь :)]]></mx:htmlText>
+					</mx:TextArea>
+				</mx:Panel>
+
+				<mx:Panel id="mysite" enabled="false" width="100%" height="100%" label="Мой сайт" layout="vertical" headerHeight="0" borderStyle="none" verticalGap="0">
+					<mx:Accordion width="100%" height="100%" borderStyle="none">
+						<mx:Panel label="Информация" width="100%" height="100%" paddingBottom="0" layout="vertical" headerHeight="0" borderStyle="none" paddingTop="10">
+							<mx:HBox width="100%" verticalAlign="middle">
+								<mx:Grid>
+									<mx:GridRow width="100%" verticalAlign="middle">
+										<mx:GridItem width="100%">
+											<mx:Label text="Адрес:" textAlign="right" width="100%"/>
+										</mx:GridItem>
+										<mx:GridItem width="100%">
+											<comp:truelabel text="{userinfo.login}.oxnull.net" id="site" click="gotourl(site.text);"/>
+										</mx:GridItem>
+										<mx:GridItem>
+											<mx:ComboBox id="rebuildbu" enabled="{rebuildbool}" dataProvider="{wtfs}" height="20" textAlign="center" width="120" change="taskdo('rebuild');"/>
+											<comp:truelabel text="[?]" click="gotourl('wiki.oxnull.net/index.php/%D0%A7%D1%82%D0%BE_%D0%BC%D0%BE%D0%B6%D0%BD%D0%BE_%D1%83_%D0%BD%D0%B0%D1%81_%D1%81%D0%B4%D0%B5%D0%BB%D0%B0%D1%82%D1%8C%3F')" textAlign="center"/>
+											<!--<mx:Button label="{rebuildlabel}" click="taskdo('rebuild')" id="rebuildbu" enabled="{rebuildbool}" height="20" textAlign="center" width="114"/>-->
+										</mx:GridItem>
+									</mx:GridRow> 
+									<mx:GridRow width="100%" verticalAlign="middle">
+										<mx:GridItem width="100%">
+											<mx:Label text="Прикрепленный домен:" textAlign="right"/>
+										</mx:GridItem>
+										<mx:GridItem width="100%">
+											<mx:ViewStack id="domainsrc" selectedIndex="{deattbool}" width="100%">
+												<mx:HBox id="domainshow" width="100%">
+													<comp:truelabel text="{domain}" click="gotourl(domain);"/>
+												</mx:HBox>
+												<mx:HBox id="domainadd" width="100%">
+													<mx:TextInput id="new_domain" width="100%" height="20" fontSize="9"/>
+												</mx:HBox>
+											</mx:ViewStack>
+										</mx:GridItem>
+										<mx:GridItem width="100%">
+											<mx:Button label="{deattlabel}" click="taskdo('deattach')" id="deattbu" height="20" width="120" textAlign="center" enabled="{deattboolb}"/>
+											<comp:truelabel text="[?]" click="gotourl('wiki.oxnull.net/index.php/DNS')" textAlign="center"/>
+										</mx:GridItem>
+									</mx:GridRow>
+									<mx:GridRow width="100%">
+										<mx:GridItem width="100%">
+											<mx:Label text="Последнее посещение:" textAlign="right"/>
+										</mx:GridItem>
+										<mx:GridItem width="100%">
+											<comp:truelabel buttonCursor="false" text="{infoXML.info.lastupdate}" width="100%"/>
+										</mx:GridItem>
+									</mx:GridRow>
+								</mx:Grid>
+							</mx:HBox>
+							<mx:HBox width="100%" verticalAlign="middle" horizontalGap="8">
+								<mx:Label text="Теги:" width="90" textAlign="right"/>
+								<mx:TextInput id="tag_line" text="{infoXML.info.tags}" width="{quotas_grid.width}" change="tags_ok.visible=true;myTimer.stop();"/>
+								<comp:truelabel text="[?]" click="gotourl('wiki.oxnull.net/index.php/%D0%A7%D0%B0%D1%81%D1%82%D0%BE_%D0%B7%D0%B0%D0%B4%D0%B0%D0%B2%D0%B0%D0%B5%D0%BC%D1%8B%D0%B5_%D0%B2%D0%BE%D0%BF%D1%80%D0%BE%D1%81%D1%8B')" textAlign="left"/>
+								<comp:truelabel text="[ok]" id="tags_ok" visible="false" click="save_tags(userinfo.id,tag_line.text)"/>
+							</mx:HBox>
+							<mx:HBox width="100%">
+								<mx:Label text="Квоты:" width="90" textAlign="right"/>
+								<mx:DataGrid id="quotas_grid" borderStyle="inset" sortableColumns="false" dataProvider="{quotas}" initialize="loadquotas()" rowCount="2" rowHeight="24" verticalAlign="middle" verticalScrollPolicy="off">
+									<mx:columns>
+										<mx:DataGridColumn headerText="" dataField="name"/>
+										<mx:DataGridColumn headerText="Текущее" dataField="current"/>
+										<mx:DataGridColumn headerText="Максимальное" dataField="max"/>
+									</mx:columns>
+								</mx:DataGrid>
+							</mx:HBox>
+
+							<mx:Spacer height="100%"/>
+						</mx:Panel>
+						<mx:Panel label="Пароли" width="100%" height="100%" paddingBottom="0" layout="vertical" headerHeight="0" borderStyle="none" verticalGap="0" paddingTop="10">
+							<mx:Label text="Эта панель(смена пароля)" fontWeight="bold" paddingBottom="-4" paddingTop="0" paddingLeft="0" paddingRight="0"/>
+							<mx:Grid paddingBottom="0" paddingLeft="20" paddingRight="0" paddingTop="0" horizontalGap="3" verticalGap="2" verticalAlign="middle">
+								<mx:GridRow width="100%" height="100%">
+									<mx:GridItem width="100%" height="100%">
+										<comp:truelabel blurWeight="0" fontWeight="normal" allColor="0x0b333c" text="Текущий пароль" paddingBottom="0" paddingLeft="0" paddingRight="0" paddingTop="0" buttonCursor="false"/>
+									</mx:GridItem>
+									<mx:GridItem width="100%" height="100%">
+										<mx:TextInput editable="true" click="clear_pass(event)" borderStyle="inset" paddingBottom="0" paddingLeft="0" paddingRight="0" paddingTop="0" id="oldpassword" displayAsPassword="true" text="123456ss" change="confirmator_func()"/>
+									</mx:GridItem>
+								</mx:GridRow>
+								<mx:GridRow width="100%" height="100%">
+									<mx:GridItem width="100%" height="100%">
+										<mx:Label text="Новый пароль" paddingBottom="0" paddingLeft="0" paddingRight="0" paddingTop="0"/>
+									</mx:GridItem>
+									<mx:GridItem width="100%" height="100%">
+										<mx:TextInput editable="true" click="clear_pass(event)" borderStyle="inset" paddingBottom="0" paddingLeft="0" paddingRight="0" paddingTop="0" id="password" displayAsPassword="true" text="123456ss" change="confirmator_func()"/>
+									</mx:GridItem>
+								</mx:GridRow>
+								<mx:GridRow width="100%" height="100%">
+									<mx:GridItem width="100%" height="100%">
+										<comp:truelabel blurWeight="0" fontWeight="normal" allColor="0x0b333c" text="Повторите" id="confirmator" buttonCursor="false"/>
+									</mx:GridItem>
+									<mx:GridItem width="100%" height="100%">
+										<mx:TextInput editable="true" click="clear_pass(event)" borderStyle="inset" paddingBottom="0" paddingLeft="0" paddingRight="0" paddingTop="0" id="password_confirmation" displayAsPassword="true" text="123456ss" change="confirmator_func()"/>
+									</mx:GridItem>
+									<mx:GridItem width="100%" height="100%" verticalAlign="middle">
+										<comp:truelabel text="[ok]" id="confirmator_save" click="accept_pass()" visible="false"/>
+									</mx:GridItem>
+								</mx:GridRow>
+							</mx:Grid>
+							<mx:HBox width="100%">
+								<mx:Label text="FTP" fontWeight="bold" paddingBottom="-4" paddingTop="0" paddingLeft="0" paddingRight="0"/>
+								<comp:truelabel text="[Как настроить?]" click="gotourl('wiki.oxnull.net/index.php/%D0%94%D0%BB%D1%8F_%D0%BE%D0%BF%D1%8B%D1%82%D0%BD%D1%8B%D1%85_%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D0%BE%D0%B2%D0%B0%D1%82%D0%B5%D0%BB%D0%B5%D0%B9');"/>
+							</mx:HBox>
+							<mx:Grid paddingBottom="0" paddingLeft="20" paddingRight="0" paddingTop="0" horizontalGap="0" verticalGap="0">
+								<mx:GridRow width="100%" height="100%">
+									<mx:GridItem width="100%" height="100%">
+										<mx:Label text="Логин" paddingBottom="0" paddingLeft="0" paddingRight="0" paddingTop="0"/>
+									</mx:GridItem>
+									<mx:GridItem width="100%" height="100%">
+										<comp:truelabel id="flogin" text="ox{userinfo.id}" click="copyer(event.target.text,'Логин скопирован в память компутера')" allColor="0x0b333c" blurWeight="0" fontWeight="normal"/>
+									</mx:GridItem>
+								</mx:GridRow>
+								<mx:GridRow width="100%" height="100%">
+									<mx:GridItem width="100%" height="100%">
+										<mx:Label text="Пароль"/>
+									</mx:GridItem>
+									<mx:GridItem width="100%" height="100%">
+										<comp:truelabel id="fpassword" click="copyer(event.target.text,'Пароль скопирован в память компутера')" allColor="0x0b333c" blurWeight="0" fontWeight="normal" text="{bfpassword}"/>
+									</mx:GridItem>
+								</mx:GridRow>
+								<mx:GridRow width="100%" height="100%">
+									<mx:GridItem width="100%" height="100%">
+										<mx:Label text="Адрес"/>
+									</mx:GridItem>
+									<mx:GridItem width="100%" height="100%">
+										<comp:truelabel id="fadress" text="webhosting.oxnull.net" click="copyer(event.target.text,'Адрес скопирован в память компутера')" allColor="0x0b333c" blurWeight="0" fontWeight="normal"/>
+									</mx:GridItem>
+								</mx:GridRow>
+							</mx:Grid>
+							<mx:HBox width="100%">
+								<mx:Label text="MYSQL" fontWeight="bold" paddingBottom="-4" paddingTop="0" paddingLeft="0" paddingRight="0"/>
+								<comp:truelabel text="[phpMyAdmin]" click="gotourl('sitecrafter.ru/phpmyadmin/index.php');"/>
+							</mx:HBox>
+							<mx:Grid paddingBottom="0" paddingLeft="20" paddingRight="0" paddingTop="0" verticalGap="0" horizontalGap="0">
+								<mx:GridRow width="100%" height="100%">
+									<mx:GridItem width="100%" height="100%">
+										<mx:Label text="Логин" paddingBottom="0" paddingLeft="0" paddingRight="0" paddingTop="0"/>
+									</mx:GridItem>
+									<mx:GridItem width="100%" height="100%">
+										<comp:truelabel id="mlogin" text="ox{userinfo.id}" click="copyer(event.target.text,'Логин скопирован в память компутера')" allColor="0x0b333c" blurWeight="0" fontWeight="normal"/>
+									</mx:GridItem>
+								</mx:GridRow>
+								<mx:GridRow width="100%" height="100%">
+									<mx:GridItem width="100%" height="100%">
+										<mx:Label text="Пароль"/>
+									</mx:GridItem>
+									<mx:GridItem width="100%" height="100%">
+										<comp:truelabel id="mpassword" click="copyer(event.target.text,'Пароль скопирован в память компутера')" allColor="0x0b333c" blurWeight="0" fontWeight="normal" text="{bmpassword}"/>
+									</mx:GridItem>
+								</mx:GridRow>
+								<mx:GridRow width="100%" height="100%">
+									<mx:GridItem width="100%" height="100%">
+										<mx:Label text="Имя БД"/>
+									</mx:GridItem>
+									<mx:GridItem width="100%" height="100%">
+										<comp:truelabel id="mbdname" text="ox{userinfo.id}" click="copyer(event.target.text,'Имя базы данных скопирован в память компутера')" allColor="0x0b333c" blurWeight="0" fontWeight="normal"/>
+									</mx:GridItem>
+								</mx:GridRow>
+								<mx:GridRow width="100%" height="100%">
+									<mx:GridItem width="100%" height="100%">
+										<mx:Label text="Адрес"/>
+									</mx:GridItem>
+									<mx:GridItem width="100%" height="100%">
+										<comp:truelabel text="localhost" click="copyer(event.target.text,'Адрес базы данных скопирован в память компутера')" allColor="0x0b333c" blurWeight="0" fontWeight="normal"/>
+									</mx:GridItem>
+								</mx:GridRow>
+							</mx:Grid>
+							<mx:HRule width="100%"/>
+						</mx:Panel>
+
+						<mx:Panel label="Адепт-центр" width="100%" height="100%" paddingBottom="0" layout="vertical" headerHeight="0" borderStyle="none" paddingTop="2" verticalGap="0">
+							<mx:HBox width="100%" paddingTop="0" paddingBottom="0">
+								<mx:Label text="Вас пригласил:"/>
+								<comp:truelabel text="{infoXML.info.master}" id="master" click="gotourl(master.text);"/>
+							</mx:HBox>
+							<mx:HBox width="100%" paddingBottom="0" paddingTop="0" height="100%" verticalGap="0">
+								<mx:VBox height="100%" width="89" paddingBottom="0" paddingTop="0">
+									<mx:LinkButton label="Мои адепты:" width="77" paddingLeft="0" paddingRight="0"/>
+								</mx:VBox>
+								<mx:VBox height="100%" paddingBottom="0" paddingTop="0">
+									<mx:DataGrid verticalSeparatorSkin="mx.skins.ProgrammaticSkin" itemClick="gotourl(invitesgrid.selectedItem.url.toString())" id="invitesgrid" height="{adepts_height}" width="295" borderStyle="none" borderColor="#FFFFFF" alpha="1.0" dataProvider="{sites}" headerHeight="0" paddingTop="0" paddingBottom="0" paddingLeft="0" paddingRight="0" rowCount="1" initialize="loadquotas()" rowHeight="20" verticalAlign="middle">
+										<mx:columns>
+											<mx:DataGridColumn headerText="" dataField="url"/>
+											<mx:DataGridColumn headerText="" dataField="current" width="35"/>
+										</mx:columns>
+									</mx:DataGrid>
+									<comp:truelabel text="Создать приглашение" click="taskdo('newinvite')"/>
+								</mx:VBox>
+							</mx:HBox>
+						</mx:Panel>
+					</mx:Accordion>
+					<comp:truelabel text="Правила ox-хостинга" click="gotourl('wiki.oxnull.net/index.php/%D0%9F%D1%80%D0%B0%D0%B2%D0%B8%D0%BB%D0%B0');"/>
+					<comp:truelabel text="Как войти чтобы им управлять?" click="gotourl('wiki.oxnull.net/index.php/%D0%91%D1%8B%D1%81%D1%82%D1%80%D1%8B%D0%B9_%D1%81%D1%82%D0%B0%D1%80%D1%82#.D0.92.D1.85.D0.BE.D0.B4');"/>
+					<comp:truelabel text="Как сменить пароль администратора?" click="gotourl('wiki.oxnull.net/index.php/%D0%91%D1%8B%D1%81%D1%82%D1%80%D1%8B%D0%B9_%D1%81%D1%82%D0%B0%D1%80%D1%82#.D0.A1.D0.BC.D0.B5.D0.BD.D0.B0_.D0.BF.D0.B0.D1.80.D0.BE.D0.BB.D1.8F_.D0.B0.D0.B4.D0.BC.D0.B8.D0.BD.D0.B8.D1.81.D1.82.D1.80.D0.B0.D1.82.D0.BE.D1.80.D0.B0');"/>
+					<comp:truelabel text="Как поставить другую тему оформления?" click="gotourl('wiki.oxnull.net/index.php/%D0%91%D1%8B%D1%81%D1%82%D1%80%D1%8B%D0%B9_%D1%81%D1%82%D0%B0%D1%80%D1%82#.D0.A1.D0.BC.D0.B5.D0.BD.D0.B0_.D0.B2.D0.BD.D0.B5.D1.88.D0.BD.D0.B5.D0.B3.D0.BE_.D0.B2.D0.B8.D0.B4.D0.B0');"/>
+					<comp:truelabel text="Как cменить имя c u1.oxnull.net?" click="gotourl('wiki.oxnull.net/index.php/%D0%91%D1%8B%D1%81%D1%82%D1%80%D1%8B%D0%B9_%D1%81%D1%82%D0%B0%D1%80%D1%82#.D0.A1.D0.BC.D0.B5.D0.BD.D0.B0_.D0.B8.D0.BC.D0.B5.D0.BD.D0.B8_c_u1.oxnull.net');"/>
+				</mx:Panel>
+				<mx:Panel id="myservices" enabled="false" label="Услуги" width="100%" height="100%" paddingLeft="10" paddingRight="10" verticalGap="0" paddingTop="10" paddingBottom="10" title="Управление услугами: баланс {balance}ox" styleName="panelbg">
+					<mx:HBox>
+						<mx:Label text="Название" width="165" fontWeight="bold"/>
+						<mx:Label text="Оксов(в месяц)" width="97" fontWeight="bold"/>
+						<mx:Label text="Количество" width="81" height="18" fontWeight="bold"/>
+						<mx:Spacer width="100%"/>
+						<mx:Label text="Состояние" width="80" textAlign="center" fontWeight="bold"/>
+					</mx:HBox>
+					<mx:VBox height="100%" width="100%" id="service_list" verticalGap="0" initialize="load_service()">
+						<comp:service width="465" height="20"/>
+					</mx:VBox>
+					<comp:truelabel text="Пополнить ox-счет" click="show_pay(event)"/>
+					<comp:truelabel text="Как работать с ox-счетом?" click="gotourl('wiki.oxnull.net/index.php/Порядок_оплаты');"/>
+				</mx:Panel>
+				<mx:Panel label="Сообщество" width="100%" height="100%" layout="vertical" headerHeight="0" borderStyle="none" verticalGap="0">
+					<mx:Accordion borderStyle="none" width="100%" height="390">
+						<mx:VBox width="100%" height="100%" label="Форум">
+							<mx:TextArea width="100%" height="100%" styleSheet="{myCSS}" editable="false" wordWrap="true" enabled="true" borderStyle="none">
+								<mx:htmlText><![CDATA[
+	В других местах пользователи предоставлены сами себе, потому что при разработке систем любой сложности они представляются максимум квадратиками на клочке бумаги. Поэтому хостер отстранялся от жизни пользователей и реагировал если только этот квадратик вызывал ошибку в системе. 
+
+	Но так дальше продолжаться не может! Ведь есть люди с хорошими идеями, но у которых пока недостаточно знаний и они готовы учиться, почему бы ему не начать творить коллективно, причем не только со своими друзьями, но и с другими пользователями. Которые когда-то тоже были такими, а сейчас являются экспертами в этой области, причем постепенно новый пользователь тоже сможет стать экспертом. Вместе мы сделаем переход к "коллективному разуму", вместо господствующего сегодня "группового сумасшествия".
+	
+	Именно поэтому одним из главных направлений развития мы(адепты) видим не только техническую сторону, но и социальную. В развитие сообщества вкладывается не меньше сил и энергии... И так, первая версия этой модели взаимодействия и есть наш <b><a href="http://offtop.oxnull.net" target="_blank">форум</a></b>]]></mx:htmlText>
+							</mx:TextArea>
+						</mx:VBox>
+						<mx:VBox label="wiki" width="100%" height="100%">
+							<mx:TextArea width="100%" height="100%" styleSheet="{myCSS}" editable="false" wordWrap="true" enabled="true" borderStyle="none">
+								<mx:htmlText><![CDATA[
+	Для удобства новых участников, мы(адепты) постарались собрать всю полезную информацию в одном месте. Это большая кладезь знаний и накопленного опыта всеми участниками. Каждый может внести и свою частицу в общее развитие.
+
+	Приведем пример. В результате 50ти страничного спора на <a href="http://offtop.oxnull.net" target="_blank">форуме</a> родилась истина. Так неужели всем пользователям кто сталкивается с этой же проблемой придется читать все эти 50 страниц? Нет, для этого и существует <b><a href="http://wiki.oxnull.net" target="_blank">oxnullWiki</a></b>. Туда попадут все выводе и пути решения сложностей.
+
+	Это место, где сконцентрировано большинство знаний в доступной каждому форме изложения.]]></mx:htmlText>
+							</mx:TextArea>
+						</mx:VBox>
+						<mx:VBox label="Видео" width="100%" height="100%" verticalGap="0">
+							<mx:TextArea styleSheet="{myCSS}" editable="false" wordWrap="true" enabled="true" borderStyle="none" width="100%" height="75">
+								<mx:htmlText><![CDATA[
+	Для быстрого старта мы специально подготовили несколько видео-уроков. Но время не стоит на месте, и мы тоже развиваемся, поэтому видео-уроки могут дать лишь общее понятие как что-то делать, но от этого они не становятся менее полезными.]]></mx:htmlText>
+							</mx:TextArea>
+							<comp:truelabel text="Joomla(сайт): Как взломать сайт?" click="show_video(event)" fontSize="12"/>
+							<comp:truelabel text="SMF(форум): форум за 2 минуты" click="show_video(event)" fontSize="12" paddingTop="5"/>
+							<comp:truelabel text="WordPress(блог): Блог за 5 минут" click="show_video(event)" fontSize="12" paddingTop="5"/>
+						</mx:VBox>
+						<!--<mx:VBox label="Адепты" width="100%" height="100%" horizontalAlign="center">
+							 <mx:TextArea width="100%" height="63" styleSheet="{myCSS}" editable="false" wordWrap="true" enabled="true" borderStyle="none">
+							 <mx:htmlText><![CDATA[
+							 Для удобства новых участников, мы(адепты) постарались собрать всю полезную информацию в одном месте. Это большая кладезь знаний и накопленного опыта всеми участниками. Каждый может внести и свою частицу в общее развитие.]]></mx:htmlText>
+							 </mx:TextArea>
+
+							 <mx:DataGrid verticalSeparatorSkin="mx.skins.ProgrammaticSkin" itemClick="gotourl(event.target.selectedItem.url.toString())" width="295" borderStyle="none" borderColor="#FFFFFF" alpha="1.0" dataProvider="{true_sites}" headerHeight="0" paddingTop="0" paddingBottom="0" paddingLeft="0" paddingRight="0" rowCount="1" initialize="load_adepts()" height="{true_adepts_height}" rowHeight="24" verticalAlign="middle">
+							 <mx:columns>
+							 <mx:DataGridColumn headerText="" dataField="url"/>
+							 </mx:columns>
+							 </mx:DataGrid>
+							 </mx:VBox>-->
+					</mx:Accordion>
+					<mx:Spacer height="100%"/>
+					<mx:HBox width="100%" verticalAlign="middle">
+						<mx:VBox width="380" >
+							<comp:truelabel text="oxnull.net - чувствуешь, что живёшь." buttonCursor="false" fontFamily="Verdana"/>
+							<comp:truelabel text="oxnull.net: изменим жизнь к лучшему вместе!" buttonCursor="false"/>
+							<comp:truelabel text="oxnull.net надерёт задницу всему миру." buttonCursor="false"/>
+							<comp:truelabel text="oxnull.net - когда мозгу нужна помощь." buttonCursor="false"/>
+							<comp:truelabel text="Я могу объять необъятное! Я могу больше! Я часть oxnull.net!" buttonCursor="false"/>
+						</mx:VBox>
+						<mx:Image source="http://oxnull.net/images/logos/gmo.png"/>
+					</mx:HBox>
+				</mx:Panel>
+				<mx:Panel label="OX-мир" width="100%" height="100%" layout="vertical" headerHeight="0" borderStyle="none" verticalGap="0">
+					<mx:Accordion borderStyle="none" width="100%" height="480">
+						<mx:VBox label="Статистика" width="100%" height="100%">
+							<comp:truelabel text="Рейтинг сайтов за 10 дней" fontSize="12" buttonCursor="false"/>
+							<mx:DataGrid width="100%" dataProvider="{stats}" id="stata"  itemClick="gotourl(event.target.selectedItem.domain.toString())" lockedRowCount="17" rowHeight="24" verticalAlign="middle" height="408" initialize="load_stats()">
+								<mx:columns>
+									<mx:DataGridColumn headerText="№" width="25" dataField="npp" sortable="false"/>
+									<mx:DataGridColumn headerText="Адрес" dataField="domain" sortable="false"/>
+									<mx:DataGridColumn headerText="Баллы" dataField="uq" width="54" sortable="false"/>
+									<!--<mx:DataGridColumn headerText="просм" dataField="visits" width="50" sortable="false"/>-->
+								</mx:columns>
+							</mx:DataGrid>
+						</mx:VBox>
+						<mx:VBox label="Каталог" width="100%" height="100%" paddingLeft="10" paddingTop="0">
+							<comp:catalog width="100%" height="100%" id="catalog">
+							</comp:catalog>
+						</mx:VBox>
+					</mx:Accordion>
+					<mx:Spacer height="100%"/>
+					<comp:truelabel text="Твое личное мнение нас очень интересует!" buttonCursor="false"  fontFamily="Verdana"/>
+					<comp:truelabel text="Ты рожден, чтобы изменить мир!" buttonCursor="false"  fontFamily="Verdana"/>
+				</mx:Panel>
+			</mx:TabNavigator>
+		</mx:ViewStack>
+	</mx:VBox>
+</mx:Application>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" layout="vertical" title="Пополнение" styleName="window" isPopUp="true" showCloseButton="true" horizontalAlign="left" verticalAlign="top" xmlns:ns1="com.*" paddingLeft="10" paddingRight="10" paddingBottom="10">
+	<mx:Script><![CDATA[
+			import mx.controls.Alert;
+			import mx.managers.PopUpManager;
+			import mx.core.IFlexDisplayObject;
+
+			[Bindable]private var dBox:IFlexDisplayObject;
+			[Bindable]public var domain:String='Unknown';
+			[Bindable]public var u_id:String='Unknown';
+
+			private function payme():void{
+				dBox = this as IFlexDisplayObject;
+				var loader:URLLoader = new URLLoader();
+				var request:URLRequest = new URLRequest("https://merchant.webmoney.ru/lmi/payment.asp"); 
+				var variables:URLVariables = new URLVariables();
+
+				variables.LMI_PAYMENT_AMOUNT = new String(howm.text);
+				variables.LMI_PAYMENT_DESC = new String(u_id+'='+domain);
+				variables.LMI_PAYMER_EMAIL = new String(parentApplication.userinfo.email.toString());
+				variables.LMI_PAYEE_PURSE = new String('R151975098463');
+				variables.LMI_SIM_MODE = new String('0');
+				variables.oxid = new String(parentApplication.userinfo.id.toString());
+
+				request.method = URLRequestMethod.POST;
+				request.data = variables;
+				//Alert.show(variables.toString());
+				navigateToURL(request,"_self");
+			}
+		]]>
+	</mx:Script>
+	<ns1:truelabel text="1ox = 1wmr" allColor="0x0b333c" buttonCursor="false"/>
+	<mx:HBox width="100%" verticalAlign="middle" horizontalGap="0">
+		<ns1:truelabel text="Пополнить на" allColor="0x0b333c" buttonCursor="false"/>
+		<mx:TextInput text="100.0" id="howm" width="50" borderStyle="none" textAlign="center" paddingTop="2"/>
+		<ns1:truelabel text="ox" allColor="0x0b333c" buttonCursor="false"/>
+		<ns1:truelabel text="[ok]" click="payme()"/>
+	</mx:HBox>
+
+</mx:TitleWindow>

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:HBox xmlns:mx="http://www.adobe.com/2006/mxml" horizontalGap="1" creationComplete="init()">
+	<mx:Script><![CDATA[
+			import mx.controls.Alert;
+
+			[Bindable]public var sname:String = "Данные загружаются...";
+			[Bindable]public var sid:String = "0";
+			[Bindable]public var sdescription:String = "Описание";
+			[Bindable]public var sprice:Number = 1;
+			[Bindable]public var ssize:Number = 0;
+
+			[Bindable]public var sstate:String = "";
+			private var sold_size:Number=0;
+
+			private function init():void{
+				if(sid=='0'){
+					minusbu.visible=false;
+					plusbu.visible=false;
+					sizebu.visible=false;
+				}
+				sold_size=ssize;
+			}
+
+			private function change_size(e:Event):void{
+				sokbu.visible=true;
+				if(e.target.text=='-'){
+					ssize -= 1;
+					if(ssize<=0){ssize=0;minusbu.enabled=false;}
+				}
+				if(e.target.text=='+'){
+					ssize += 1;
+					minusbu.enabled=true;
+				}
+
+				if(ssize==0)sstate = "Выкл";
+				else sstate = "Работает";
+				if(sold_size==ssize)sokbu.visible=false;
+			}
+
+			private function colorizer(event:Event):void{
+				if(event.type.toString()=='rollOver'){
+					glowImage.target=event.target;
+					glowImage.play();
+				} 
+				if(event.type.toString()!='rollOver'){
+					unglowImage.target=event.target;
+					unglowImage.play();
+				} 
+			}
+
+			private function switcher():void{
+				if(sstate=='Выкл'){
+					sstate="Работает";
+					ssize=1;
+
+				}
+				else{
+					sstate="Выкл";
+					ssize=0;
+				}
+				if(sold_size!=ssize)sokbu.visible=true;
+				else sokbu.visible=false;
+			}
+
+			private function accepter():void{
+				if(Number(parentApplication.balance) < 1 && ssize > sold_size){
+					Alert.show("Мало оксов");
+					return void;
+				}
+				sokbu.visible=false;
+				//Alert.show("Послать изменения на сервер");
+				var variables:URLVariables = new URLVariables();
+				variables.oldsize = new String(sold_size);
+				variables.size = new String(ssize);
+				variables.serviceid = new String(sid);
+				if(parentApplication.iam!='0')variables.user_id=parentApplication.iam;
+				sold_size=ssize;
+				parentApplication.link_to_remote("http://oxnull.net/flex/service_change.xml",variables);
+			}
+		]]>
+	</mx:Script>
+	<mx:Glow id="glowImage" duration="100" 
+			 alphaFrom="0.0" alphaTo="1.0" 
+			 blurXFrom="0.0" blurXTo="2.0" 
+			 blurYFrom="0.0" blurYTo="2.0" 
+			 color="0xFF8400"/>
+	<mx:Glow id="unglowImage" duration="100" 
+			 alphaFrom="1.0" alphaTo="0.0" 
+			 blurXFrom="2.0" blurXTo="0.0" 
+			 blurYFrom="2.0" blurYTo="0.0" 
+			 color="0xFF8400"/>
+
+	<mx:Label text="{sname}" width="200"/>
+	<mx:Label text="{sprice*ssize}ox" width="70" textAlign="left"/>
+	<mx:Label text="-" rollOver="colorizer(event)" rollOut="colorizer(event)" id="minusbu" fontWeight="bold" click="change_size(event)" textAlign="right" color="#FF8400" buttonMode="true" mouseChildren="false" fontSize="12" width="25"/>
+	<mx:Label text="{ssize}" id="sizebu" width="30" textAlign="center"/>
+	<mx:Label text="+" id="plusbu" rollOver="colorizer(event)" rollOut="colorizer(event)" color="#FF8400" click="change_size(event)" fontWeight="bold" textAlign="left" buttonMode="true" mouseChildren="false" fontSize="12" width="15"/>
+	<mx:Label text="[ok]" click="accepter()" id="sokbu" visible="false" rollOver="colorizer(event)" rollOut="colorizer(event)" color="#FF8400" fontWeight="bold" textAlign="center" buttonMode="true" mouseChildren="false" />
+	<mx:Spacer width="100%"/>
+	<mx:Label text="{sstate}" click="switcher()" width="80" rollOver="colorizer(event)" rollOut="colorizer(event)" color="#FF8400" buttonMode="true" mouseChildren="false" />
+
+
+
+</mx:HBox>

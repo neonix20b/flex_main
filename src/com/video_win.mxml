@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:com="com.*" layout="vertical" title="Видео" styleName="window" isPopUp="true" showCloseButton="true" horizontalAlign="center" verticalAlign="middle" remove="if (video.playing)video.stop()">
+	<mx:Script><![CDATA[
+			import mx.events.VideoEvent;
+			//import mx.controls.Alert;
+
+			[Bindable]public var video_src:String = new String();
+			private function videoDisplay_stateChange(evt:VideoEvent):void
+			{
+				if(evt.state=='buffering')progressBar.label="Буферизация";
+				if(evt.state=='paused')progressBar.label="Пауза";
+				if(evt.state=='playing')progressBar.label="Воспроизведение";
+			}
+			private function videoDisplay_playheadUpdate(evt:VideoEvent):void{ 
+				progressBar.setProgress(evt.playheadTime, video.totalTime); 
+			}
+			private function play_click():void {
+				if (video.playing){
+					video.pause();
+					state.text="►";
+				}
+				else{
+					video.play()
+					state.text="| |";
+				};
+			}
+			/*
+			   private function w_camera_enabled():void{
+			   var camera:Camera = Camera.getCamera();
+			   if (camera) {
+			   video.attachCamera(camera);
+			   } else {
+			   Alert.show("Камера не установлена.");
+			   }
+			   }
+			 */
+		]]>
+	</mx:Script>
+	<mx:VideoDisplay autoPlay="true" id="video" click="play_click()" width="640" height="480" source="{video_src}" stateChange="videoDisplay_stateChange(event);" playheadUpdateInterval="50" playheadUpdate="videoDisplay_playheadUpdate(event);"/>
+	<mx:HBox horizontalGap="0" width="70%" horizontalAlign="right">
+		<com:truelabel id="state" text="| |" blurWeight="2.5" click="play_click()" fontSize="11" textAlign="center" fontFamily="Arial" width="16"/>
+		<mx:ProgressBar id="progressBar" click="play_click()" label="" labelPlacement="center" mode="manual" bottom="0" horizontalCenter="0"  width="100%" themeColor="#FF8400"/>
+		<!--<mx:Button  label="Тык!" click="w_camera_enabled()"/>-->
+	</mx:HBox>
+
+</mx:TitleWindow>

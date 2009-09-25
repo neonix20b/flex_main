@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Panel xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:com="com.*" verticalGap="0" headerHeight="0" paddingTop="10" paddingLeft="10" paddingBottom="10" paddingRight="10">
+	<mx:Script><![CDATA[
+			import mx.states.SetStyle;
+			import mx.containers.HBox;
+			import mx.controls.Alert;
+			import mx.controls.TextInput;
+			import mx.events.CloseEvent;
+			import mx.core.IFlexDisplayObject;
+			import mx.managers.PopUpManager;
+			
+			[Bindable]private var to_tags_b:Boolean = new Boolean(false);
+			
+			private function gotourl(event:Event):void{
+				if(event==null||event.target.text=="")return void;
+				var request:URLRequest=new URLRequest("http://" + event.target.text);
+				navigateToURL(request, "_blank");
+				//Alert.show(event.target.text);
+			}
+			
+			private function copyer(e:Event):void{
+				Alert.show("Скопировано: "+e.target.text,"Буфер обмена",Alert.OK, null,copyme);
+				function copyme(eventObj:CloseEvent):void {
+					System.setClipboard(e.target.text);
+				}
+			}
+			
+			private function show_load():void{
+				ok_id.visible=false;
+				vb.removeAllChildren();
+				var lbl:truelabel = new truelabel;
+				lbl.text="Немного подождите, идет загрузка...";
+				lbl.setStyle("fontSize","12");
+				vb.addChild(lbl);
+			}
+			
+			private function exit():void{
+				other.visible=false;
+				parentApplication.iam='0';
+				parentApplication.whoiam(false);
+				Alert.show('Хорошо, шеф','Милорд');
+			}
+			
+			public function onchange(e:Event=null):void{
+				if(search.text=="")return void;
+				ok_id.visible=true;
+			}
+			
+			private function show_editor(event:Event):void{
+				//var dBox:IFlexDisplayObject=PopUpManager.createPopUp(this, user_edit_win, true);
+				//(dBox as user_edit_win).load(event.target.text);
+				//PopUpManager.centerPopUp(dBox);
+				//dBox.addEventListener("close", parentApplication.closeenter);
+				parentApplication.iam=event.target.text;
+				parentApplication.whoiam();
+				other.visible=true;
+				Alert.show('Теперь ты ox'+event.target.text);
+			}
+			
+			public function load_users(e:Event=null):void{
+				search.stop();
+				if(search.text=="")return void;
+				show_load();
+				var clientsXML:XMLList;
+				var loader:URLLoader = new URLLoader();
+				var request:URLRequest = new URLRequest("http://oxnull.net/flex/adept_def.xml");
+				var variables:URLVariables = new URLVariables();
+				variables.search = new String(search.text);
+				request.method = URLRequestMethod.POST;
+				request.data = variables;
+				loader.load(request);
+				loader.addEventListener(Event.COMPLETE, oncomlete);
+				function oncomlete(event:Event):void{
+					vb.removeAllChildren();
+					var loader:URLLoader = URLLoader(event.target);
+					var hb:HBox = null;
+					clientsXML=(new XML(loader.data)).children();
+					for each(var xml:XML in clientsXML)
+					{
+						var vb2:VBox = new VBox;
+						var lbl:truelabel = new truelabel;
+						vb2.setStyle("verticalGap","0");
+						lbl.text=xml.url;
+						lbl.setStyle("fontSize","12"); //fontSize=18;
+						lbl.addEventListener(MouseEvent.CLICK, gotourl);
+//серая строка
+						hb = new HBox;
+//oxID
+						var lbl0:truelabel = new truelabel;
+						lbl0.text=xml.id;
+						lbl0.allColor=0x9d9d9d;
+						if(parentApplication.userinfo.right.toString()=='admin'||parentApplication.iam!='0')
+							lbl0.addEventListener(MouseEvent.CLICK, show_editor);
+						hb.addChild(lbl0);
+//логин						
+						var lbl3:truelabel = new truelabel;
+						lbl3.text=xml.login;
+						lbl3.allColor=0x9d9d9d;
+						lbl3.addEventListener(MouseEvent.CLICK, copyer);
+						hb.addChild(lbl3);
+//e-mail						
+						var lbl1:truelabel = new truelabel;
+						lbl1.text=xml.email;
+						lbl1.allColor=0x9d9d9d;
+						lbl1.addEventListener(MouseEvent.CLICK, copyer);
+						hb.addChild(lbl1);
+//теги						
+						var tagc:tag_control = new tag_control;
+						var lbl2:TextInput = new TextInput;
+						tagc.old_tags=xml.tags;
+						tagc.width = 420;
+						tagc.user_id = xml.id;
+						
+						hb.setStyle("horizontalGap","0");
+						//hb.setStyle("paddingTop","-5");
+						vb2.setStyle("verticalGap","0");
+						vb2.addChild(lbl);
+						vb2.addChild(hb);
+//теги сохраняются не тому человеку!!
+						//vb2.addChild(tagc);
+						vb.addChild(vb2);
+					}
+					invalidateDisplayList()
+					invalidateProperties();
+					invalidateSize();
+				}
+			}
+		]]>
+	</mx:Script>
+	<mx:HBox  width="100%">
+		<com:truelabel text="Введите для поиска oxID/e-mail/login/домен" buttonCursor="false"/>
+		<mx:Spacer width="100%" height="100%"/>
+		<com:truelabel text="[Развоплотиться]" visible="false" click="exit()" id="other"/>
+	</mx:HBox>
+	<mx:HBox width="100%" verticalAlign="middle">
+		<com:TextInput_call onchange="onchange" call_f="load_users" width="100%" id="search"/>
+		<com:truelabel text="[ok]" id="ok_id" click="load_users()" visible="false"/>
+		
+	</mx:HBox>
+	<mx:VBox id="vb" width="100%" height="100%" verticalGap="4">
+		
+	</mx:VBox>
+</mx:Panel>

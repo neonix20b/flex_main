@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" layout="vertical" title="Регистрация" styleName="window" isPopUp="true" showCloseButton="true" horizontalAlign="left" verticalAlign="top" xmlns:ns1="com.*" paddingLeft="10" paddingRight="10" paddingBottom="10">
+	<mx:Script><![CDATA[
+			import mx.controls.Alert;
+			import mx.managers.PopUpManager;
+			import mx.core.IFlexDisplayObject;
+			import mx.collections.ArrayCollection;
+
+			[Bindable]private var wtfs:ArrayCollection = new ArrayCollection(
+                [ {label:"сайт", data:'joomla'}, 
+                  {label:"форум", data:'smf'}, 
+                  {label:"блог", data:'wordpress'}]);
+			[Bindable]public var invite:String = new String();
+			private var dBox:IFlexDisplayObject;
+			private var loginb:Boolean = new Boolean(false);
+			private var emailb:Boolean = new Boolean(false);
+			private var passb:Boolean = new Boolean(false);
+			[Bindable]private var redyb:Boolean = new Boolean(false);
+
+			public function minit():void{
+				dBox = this as IFlexDisplayObject;
+				var variables:URLVariables = new URLVariables();
+				variables.invite = new String(invite);
+				parentApplication.link_to_remote("http://oxnull.net/account/check_login.xml",variables,check_inv);
+				function check_inv(res:String):void{
+					if(res=='ok')return void;
+					Alert.show(res);
+					PopUpManager.removePopUp(dBox);
+				}
+			}
+			
+			private function reg_me():void{
+				var variables:URLVariables = new URLVariables();
+				variables.invite = new String(inv.text);
+				variables.wtf = new String(wtf.selectedItem.data);
+				variables['user[login]'] = new String(CRYPTER.encode(login.text));
+				variables['user[email]'] = new String(CRYPTER.encode(email.text));
+				variables['user[password]'] = new String(CRYPTER.encode(pass.text));
+				variables['user[password_confirmation]'] = new String(CRYPTER.encode(conf_pass.text));
+				parentApplication.link_to_remote("http://oxnull.net/account/signup.xml",variables);
+				Alert.show('Регистрация прошла успешно. Сейчас вы автоматически войдете в панель управления, а в это время все будет создано. Удачи!','Регистрация');
+				PopUpManager.removePopUp(dBox);
+			}
+
+			private function check_login(event:Event):void{
+				var pattern:RegExp = /\A[a-zA-Z0-9\-_]{2,16}\Z/g; 
+				pattern.ignoreCase;
+				if(!pattern.test(login.text)){
+					loginb=false;
+					check_me();
+					return void;
+				}
+				
+				var variables:URLVariables = new URLVariables();
+				variables.login = new String(login.text);
+				parentApplication.link_to_remote("http://oxnull.net/account/check_login.xml",variables,check_login);
+				function check_login(res:String):void{
+					if(res=='ok')loginb=true;
+					else loginb=false;
+					check_me();
+				}
+			}
+			private function check_me(event:Event=null):void{
+				if(event){
+					var pattern:RegExp = /\A[a-zA-Z0-9-+%\._]+@([a-zA-Z0-9-\.])+\.[a-zA-Z]{2,4}\Z/g; 
+					pattern.ignoreCase;
+					if(pattern.test(email.text))emailb=true;
+					else emailb=false;
+				}
+
+				if(pass.text==conf_pass.text && conf_pass.text!='')passb=true;
+				else passb=false;
+
+				if(!loginb){
+					loginl.setStyle("fontWeight","bold");
+					loginl.blurWeight=1.2;
+					loginl.setStyle("color","#FF0000");
+					loginl.allColor=0xFF0000;
+				}
+				else{
+					loginl.setStyle("color","#198907");
+					loginl.allColor=0x198907;
+				}
+				if(!emailb){
+					emaill.setStyle("fontWeight","bold");
+					emaill.blurWeight=1.2;
+					emaill.setStyle("color","#FF0000");
+					emaill.allColor=0xFF0000;
+				}
+				else{
+					emaill.setStyle("color","#198907");
+					emaill.allColor=0x198907;
+				}
+				if(!passb){
+					passl.setStyle("fontWeight","bold");
+					passl.blurWeight=1.2;
+					passl.setStyle("color","#FF0000");
+					passl.allColor=0xFF0000;
+				}
+				else{
+					passl.setStyle("color","#198907");
+					passl.allColor=0x198907;
+				}
+				if(loginb &&  emailb && passb)redyb=true;
+				else redyb=false;
+			}
+		]]>
+	</mx:Script>
+	<mx:Grid>
+		<mx:GridRow width="100%" height="100%" verticalAlign="middle">
+			<mx:GridItem width="100%" height="100%" verticalAlign="middle">
+				<ns1:truelabel blurWeight="0" fontWeight="bold" allColor="0x0b333c" text="ox-Приглашение" paddingBottom="0" paddingLeft="0" paddingRight="0" paddingTop="0" buttonCursor="false"/>
+			</mx:GridItem>
+			<mx:GridItem width="100%" height="100%" verticalAlign="middle">
+				<ns1:truelabel id="inv" text="{invite}" width="160"/>
+			</mx:GridItem>
+			<mx:GridItem width="100%" height="100%" verticalAlign="middle">
+				<ns1:truelabel text=" "/>
+			</mx:GridItem>
+		</mx:GridRow>
+		<mx:GridRow width="100%" height="100%" verticalAlign="middle">
+			<mx:GridItem width="100%" height="100%" verticalAlign="middle">
+				<ns1:truelabel blurWeight="0" fontWeight="bold" allColor="0x0b333c" text="Имя сайта" paddingBottom="0" paddingLeft="0" paddingRight="0" paddingTop="0" buttonCursor="false" id="loginl"/>
+			</mx:GridItem>
+			<mx:GridItem width="100%" height="100%" verticalAlign="middle">
+				<ns1:TextInput_call id="login" call_f="check_login"/>
+			</mx:GridItem>
+			<mx:GridItem width="100%" height="100%" verticalAlign="middle">
+				<ns1:truelabel  text="[?]" click="Alert.show('Это имя для доступа к панели управления хостингом. Так же оно будет являться именем вашего сайта. Т.е. если указать my-site, то создаваемый сайт будет иметь такой адрес - http://my-site.oxnull.net','Помощь')"/>
+			</mx:GridItem>
+		</mx:GridRow>
+		<mx:GridRow width="100%" height="100%" verticalAlign="middle">
+			<mx:GridItem width="100%" height="100%" verticalAlign="middle">
+				<ns1:truelabel blurWeight="0" fontWeight="bold" allColor="0x0b333c" text="e-mail" paddingBottom="0" paddingLeft="0" paddingRight="0" paddingTop="0" buttonCursor="false" id="emaill"/>
+			</mx:GridItem>
+			<mx:GridItem width="100%" height="100%" verticalAlign="middle">
+				<mx:TextInput id="email" change="check_me(event)"/>
+			</mx:GridItem>
+			<mx:GridItem width="100%" height="100%" verticalAlign="middle">
+				<ns1:truelabel  text="[?]" click="Alert.show('Ваш адрес электронной почты. Будет использован только для информирования, например о недостатке места, т.е. некоторым может повезти и им никогда не будет посылаться такого рода почта','Помощь')"/>
+			</mx:GridItem>
+		</mx:GridRow>
+		<mx:GridRow width="100%" height="100%" verticalAlign="middle">
+			<mx:GridItem width="100%" height="100%" verticalAlign="middle">
+				<ns1:truelabel blurWeight="0" fontWeight="bold" allColor="0x0b333c" text="Хочу создать..." paddingBottom="0" paddingLeft="0" paddingRight="0" paddingTop="0" buttonCursor="false"/>
+			</mx:GridItem>
+			<mx:GridItem width="100%" height="100%" verticalAlign="middle">
+				<mx:ComboBox id="wtf" dataProvider="{wtfs}"/>
+			</mx:GridItem>
+			<mx:GridItem width="100%" height="100%" verticalAlign="middle">
+				<ns1:truelabel  text="[?]" click="parentApplication.gotourl('wiki.oxnull.net/index.php/%D0%A7%D1%82%D0%BE_%D0%BC%D0%BE%D0%B6%D0%BD%D0%BE_%D1%83_%D0%BD%D0%B0%D1%81_%D1%81%D0%B4%D0%B5%D0%BB%D0%B0%D1%82%D1%8C%3F')"/>
+			</mx:GridItem>
+		</mx:GridRow>
+		<mx:GridRow width="100%" height="100%" verticalAlign="middle">
+			<mx:GridItem width="100%" height="100%" verticalAlign="middle">
+				<ns1:truelabel blurWeight="0" fontWeight="bold" allColor="0x0b333c" text="Пароль" paddingBottom="0" paddingLeft="0" paddingRight="0" paddingTop="0" buttonCursor="false"/>
+			</mx:GridItem>
+			<mx:GridItem width="100%" height="100%" verticalAlign="middle">
+				<mx:TextInput displayAsPassword="true" id="pass" change="check_me()"/>
+			</mx:GridItem>
+			<mx:GridItem width="100%" height="100%" verticalAlign="middle">
+				<ns1:truelabel  text="[?]" click="Alert.show('Это пароль для доступа к панели управления хостингом, используется только на http://oxnull.net. Пароль к административной части вашего сайта задаётся на самом сайте(по умолчанию admin)','Помощь')"/>
+			</mx:GridItem>
+		</mx:GridRow>
+		<mx:GridRow width="100%" height="100%" verticalAlign="middle">
+			<mx:GridItem width="100%" height="100%" verticalAlign="middle">
+				<ns1:truelabel blurWeight="0" fontWeight="bold" allColor="0x0b333c" text="Ещё раз пароль" paddingBottom="0" paddingLeft="0" paddingRight="0" paddingTop="0" buttonCursor="false" id="passl"/>
+			</mx:GridItem>
+			<mx:GridItem width="100%" height="100%" verticalAlign="middle">
+				<mx:TextInput displayAsPassword="true" id="conf_pass" change="check_me()"/>
+			</mx:GridItem>
+			<mx:GridItem width="100%" height="100%" verticalAlign="middle">
+				<ns1:truelabel  text="[?]" click="Alert.show('Повторите ввод пароля что был выше, чтобы убедиться что не ошиблись.','Помощь')"/>
+			</mx:GridItem>
+		</mx:GridRow>
+		<mx:GridRow width="100%" height="100%" verticalAlign="middle">
+			<mx:GridItem width="100%" height="100%" verticalAlign="middle">
+			</mx:GridItem>
+			<mx:GridItem width="100%" height="100%" horizontalAlign="right">
+				<mx:Button label="Я готов!" click="reg_me()" enabled="{redyb}" id="reg_bu"/>
+			</mx:GridItem>
+		</mx:GridRow>
+	</mx:Grid>
+
+
+</mx:TitleWindow>

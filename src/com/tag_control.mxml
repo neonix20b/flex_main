@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:HBox xmlns:mx="http://www.adobe.com/2006/mxml" horizontalGap="1" xmlns:ns1="com.*" width="100%" height="100%" verticalAlign="middle">
+	<mx:Script><![CDATA[
+			public var user_id:String = new String;
+			[Bindable]public var old_tags:String = new String;
+
+			private function save_tags():void{
+				var variables:URLVariables = new URLVariables();
+				ok_b.visible=false;
+				variables.user_id = new String(user_id);
+				variables.tags = new String(tags.text);
+				//Alert.show(variables.toString());
+				parentApplication.link_to_remote("http://oxnull.net/flex/tag_control/set_tags",variables);
+			}
+
+		]]>
+	</mx:Script>
+	<mx:TextInput  id="tags" text="{old_tags}" width="100%" change="ok_b.visible=true"/>
+	<ns1:truelabel id="ok_b" text="[ok]" visible="false" click="save_tags()"/>
+
+</mx:HBox>

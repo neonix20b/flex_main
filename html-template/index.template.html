@@ -1,0 +1,149 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="history/history.css" />
+<title>${title}</title>
+<script src="AC_OETags.js" type="text/javascript" language="javascript"></script>
+<script src="history/history.js" type="text/javascript" language="javascript"></script>
+<style type="text/css">
+html { height: 100%; overflow:hidden;}
+body { background-color: transparent; margin: 0px; padding: 0px; height: 100%; border-top: px transparent solid; margin-top: -1px; z-index:0; position:relative; }
+img#background { height: 100%; width: 100%; z-index: -1; position:absolute; color: white; }
+/*body { margin: 0px; overflow:hidden }*/
+</style>
+<script language="JavaScript" type="text/javascript">
+<!--
+// -----------------------------------------------------------------------------
+// Globals
+// Major version of Flash required
+var requiredMajorVersion = ${version_major};
+// Minor version of Flash required
+var requiredMinorVersion = ${version_minor};
+// Minor version of Flash required
+var requiredRevision = ${version_revision};
+// -----------------------------------------------------------------------------
+// -->
+</script>
+</head>
+
+<body scroll="no">
+<script language="JavaScript" type="text/javascript">
+<!--
+// Version check for the Flash Player that has the ability to start Player Product Install (6.0r65)
+var hasProductInstall = DetectFlashVer(6, 0, 65);
+
+// Version check based upon the values defined in globals
+var hasRequestedVersion = DetectFlashVer(requiredMajorVersion, requiredMinorVersion, requiredRevision);
+
+if ( hasProductInstall && !hasRequestedVersion ) {
+	// DO NOT MODIFY THE FOLLOWING FOUR LINES
+	// Location visited after installation is complete if installation is required
+	var MMPlayerType = (isIE == true) ? "ActiveX" : "PlugIn";
+	var MMredirectURL = window.location;
+    document.title = document.title.slice(0, 47) + " - Flash Player Installation";
+    var MMdoctitle = document.title;
+
+	AC_FL_RunContent(
+		"src", "playerProductInstall",
+		"FlashVars", "MMredirectURL="+MMredirectURL+'&MMplayerType='+MMPlayerType+'&MMdoctitle='+MMdoctitle+"",
+		"width", "${width}",
+		"height", "${height}",
+		"align", "middle",
+		"id", "${application}",
+		"quality", "high",
+		"bgcolor", "${bgcolor}",
+		"name", "${application}",
+		"allowScriptAccess","sameDomain",
+		"type", "application/x-shockwave-flash",
+		"pluginspage", "http://www.adobe.com/go/getflashplayer"
+	);
+} else if (hasRequestedVersion) {
+	// if we've detected an acceptable version
+	// embed the Flash Content SWF when all tests are passed
+	AC_FL_RunContent(
+			"src", "${swf}",
+			"width", "${width}",
+			"height", "${height}",
+			"align", "middle",
+			"id", "${application}",
+			"quality", "high",
+			"bgcolor", "${bgcolor}",
+			"name", "${application}",
+			"allowScriptAccess","sameDomain",
+			"type", "application/x-shockwave-flash",
+			"pluginspage", "http://www.adobe.com/go/getflashplayer"
+	);
+  } else {  // flash is too old or we can't detect the plugin
+    var alternateContent = '<br/><br/><br/>'
+  	+ 'Для просмотра необходим Adobe Flash Player. '
+   	+ '<a href=http://www.adobe.com/go/getflash/>Скачать</a><br/><br/><br/><br/><br/>';
+    document.write(alternateContent);  // insert non-flash content
+  }
+// -->
+</script>
+<noscript>
+  	<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"
+			id="${application}" width="${width}" height="${height}"
+			codebase="http://fpdownload.macromedia.com/get/flashplayer/current/swflash.cab">
+			<param name="movie" value="${swf}.swf" />
+			<param name="quality" value="high" />
+			<param name="bgcolor" value="${bgcolor}" />
+			<param name="allowScriptAccess" value="sameDomain" />
+			<embed src="${swf}.swf" quality="high" bgcolor="${bgcolor}"
+				width="${width}" height="${height}" name="${application}" align="middle"
+				play="true"
+				loop="false"
+				quality="high"
+				allowScriptAccess="sameDomain"
+				type="application/x-shockwave-flash"
+				pluginspage="http://www.adobe.com/go/getflashplayer">
+			</embed>
+	</object>
+</noscript><br/>
+	<b>Веб-сайты для всех</b><br/>
+Вы думаете создавать сайты сложно? С нуль-кузницей вы легко этому научитесь. Создайте свой собственный сайт используя готовые темы. Добавьте фотографии, картинки, текст, опрос или просто раздвиньте границы возможностей новыми компонентами. Ведь теперь это так просто, можно добавить именно тех функций, что нужны именно вам, и сделать абсолютно уникальный сайт.
+<br/>
+	<b>Веб-сайт вашей мечты</b><br/>
+Компьютер и Internet — это всё, что вам нужно для создания и развития своего собственного сайта. Сначала, после регистрации, выберите одну из тем. Любая тема включает в себя фон, подборку шрифтов и цветов — все страницы вашего сайта будут сочетаться друг с другом.
+<br/>
+Затем добавьте немного информации о том, для кого этот сайт и кто его делает. Так же найдете подробное описание по созданию домашней страницы, коллективного сайта, фотоальбома, блога, форума и многого другого. Вы можете создать сколько угодно страниц.
+<br/>
+Вам не придётся разбираться в HTML-коде или овладевать сложными программами для создания сайтов. Ничто не помешает вам создать удивительный сайт.
+<br/>
+	<b>Вместе мы сила</b><br/>
+Появились вопросы? Отлично, только у растений нет вопросов. В любой момент сможете воспользоваться всей силой ox-сообщества и прояснить любой вопрос, даже не обязательно касающийся сайта, ведь мы тоже люди и интересуемся очень многим. Присоединяйся!
+<br/>
+	<b>Форум</b><br/>
+Наш <b><a href="http://offtop.oxnull.net" target="_blank">форум</a></b> не только поможет решить технические вопросы, но и найти друзей! Здесь всегда можно найти единомышленников и обсудить насущные проблемы. Но и это не самое главное! А что главное? Да просто присоединяйся и узнаешь :)
+<br/>
+	В других местах пользователи предоставлены сами себе, потому что при разработке систем любой сложности они представляются максимум квадратиками на клочке бумаги. Поэтому хостер отстранялся от жизни пользователей и реагировал если только этот квадратик вызывал ошибку в системе. 
+<br/>
+	Но так дальше продолжаться не может! Ведь есть люди с хорошими идеями, но у которых пока недостаточно знаний и они готовы учиться, почему бы ему не начать творить коллективно, причем не только со своими друзьями, но и с другими пользователями. Которые когда-то тоже были такими, а сейчас являются экспертами в этой области, причем постепенно новый пользователь тоже сможет стать экспертом. Вместе мы сделаем переход к "коллективному разуму", вместо господствующего сегодня "группового сумасшествия". 
+	<br/>
+	Именно поэтому одним из главных направлений развития мы(адепты) видим не только техническую сторону, но и социальную. В развитие сообщества вкладывается не меньше сил и энергии... И так, первая версия этой модели взаимодействия и есть наш <b><a href="http://offtop.oxnull.net" target="_blank">форум</a></b>
+	<br/>
+		Для удобства новых участников, мы(адепты) постарались собрать всю полезную информацию в одном месте. Это большая кладезь знаний и накопленного опыта всеми участниками. Каждый может внести и свою частицу в общее развитие.
+<br/>
+	Приведем пример. В результате 50ти страничного спора на <a href="http://offtop.oxnull.net" target="_blank">форуме</a> родилась истина. Так неужели всем пользователям кто сталкивается с этой же проблемой придется читать все эти 50 страниц? Нет, для этого и существует <b><a href="http://wiki.oxnull.net" target="_blank">oxnullWiki</a></b>. Туда попадут все выводе и пути решения сложностей.<br/>
+<br/>
+	Это место, где сконцентрировано большинство знаний в доступной каждому форме изложения
+	<br/>
+		Для быстрого старта мы специально подготовили несколько видео-уроков. Но время не стоит на месте, и мы тоже развиваемся, поэтому видео-уроки могут дать лишь общее понятие как что-то делать, но от этого они не становятся менее полезными.
+<br/>
+oxnull.net - чувствуешь, что живёшь.<br/>
+oxnull.net: изменим жизнь к лучшему вместе!<br/>
+oxnull.net надерёт задницу всему миру.<br/>
+oxnull.net - когда мозгу нужна помощь.<br/>
+Я могу объять необъятное! Я могу больше! Я часть oxnull.net!<br/>
+    <script type="text/javascript">
+      var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+      document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+    <script type="text/javascript">
+      try {
+        var pageTracker = _gat._getTracker("UA-5504344-3");
+        pageTracker._trackPageview();
+      } catch(err) {}</script>
+</body>
+</html>

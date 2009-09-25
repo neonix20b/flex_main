@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TextInput xmlns:mx="http://www.adobe.com/2006/mxml" initialize="init()" change="timer_switch(event)">
+	<mx:Script><![CDATA[
+			[Bindable]public var call_time:Number = new Number(2000)
+			public var call_f:Function;
+			public var onchange:Function;
+			private var myTimer:Timer=new Timer(call_time, 1);
+
+			private function timer_switch(event:Event):void{
+				myTimer.stop();
+				myTimer.reset();
+				myTimer.start();
+				if(onchange!=null)onchange(event);
+			}
+			public function call_func(event:TimerEvent):void{
+				myTimer.stop();
+				if(call_f!=null)call_f(event);
+			}
+
+			public function stop():void{
+				myTimer.stop();
+			}
+
+			public function init():void{
+				myTimer.addEventListener(TimerEvent.TIMER, call_func);
+			}
+		]]>
+	</mx:Script>
+</mx:TextInput>
