@@ -155,7 +155,7 @@ public function closeenter(event:Event):void{
 }
 
 public function showenter():void{
-	if(enterbutton.label=="Вход"){
+	if(enterbutton.text=="Вход"){
 		var dBox:IFlexDisplayObject=PopUpManager.createPopUp(this, enterwin, true);
 		PopUpManager.centerPopUp(dBox);
 		dBox.addEventListener("close", closeenter);
@@ -196,16 +196,9 @@ public function show_video(e:Event):void{
 	if(e.target.text.substr(0,3)=='Joo')(dBox as video_win).video_src="http://video.oxnull.net/movies/joomla_start.flv";
 	if(e.target.text.substr(0,3)=='Wor')(dBox as video_win).video_src="http://video.oxnull.net/movies/wordpress_start.flv";
 	if(e.target.text.substr(0,3)=='SMF')(dBox as video_win).video_src="http://video.oxnull.net/movies/forum_start.flv";
+	if(e.target.text.substr(0,3)=='Ron')(dBox as video_win).video_src="http://video.oxnull.net/movies/ronnie_joomla_install.flv";
 	(dBox as video_win).title=e.target.text;
 	dBox.addEventListener("close", closeenter);
-}
-
-public function show_pay(e:Event):void{
-	var dBox:IFlexDisplayObject=PopUpManager.createPopUp(this, pay_win, true);
-	PopUpManager.centerPopUp(dBox);
-	dBox.addEventListener("close", closeenter);
-	(dBox as pay_win).domain=userinfo.login+'.oxnull.net';
-	(dBox as pay_win).u_id='ox'+userinfo.id;
 }
 
 private function taskdo(task:String):void{
@@ -347,7 +340,7 @@ public function enterok(adeptb:Boolean=true):void{
 			adeptc.label="Адепт"
 			tab_nav.addChild(adeptc);
 		}
-		enterbutton.label="Выход"
+		enterbutton.text="Выход"
 		reg_id.visible=false;
 		loadquotas();
 		if(userinfo.domain.toString()!=''){
@@ -367,7 +360,7 @@ public function enterok(adeptb:Boolean=true):void{
 	else{
 		mysite.enabled=false;
 		myservices.enabled=false;
-		enterbutton.label="Вход"
+		enterbutton.text="Вход"
 		reg_id.visible=true;
 		if(adeptc){
 			tab_nav.removeChild(adeptc);
@@ -445,7 +438,7 @@ private function confirmator_func():void{
 }
 
 public function loadquotas(event:TimerEvent=null):void{
-	if(enterbutton.label=="Вход")return void;
+	if(enterbutton.text=="Вход")return void;
 	//if(catalog)catalog.load_tag_list();
 	var clientsXML:XML;
 	var loader:URLLoader=new URLLoader();

@@ -3,7 +3,9 @@ font-family: Verdana;
 themeColor: #FF8400;
 backgroundAlpha: 0.45;
 }
-
+ComboBox{
+backgroundAlpha: 0;
+}
 Alert{
     backgroundAlpha: 0.75;
     backgroundColor: white;

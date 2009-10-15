@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:ns1="com.*" initialize="init()" paddingLeft="10" paddingRight="10" paddingBottom="10" width="100%" height="100%" horizontalAlign="center" paddingTop="10">
+	<mx:Script><![CDATA[
+			import mx.controls.Alert;
+
+			[Bindable]public var u_id:String='Unknown';
+			[Bindable]public var domain:String='Unknown';
+			[Bindable]private var countries:XMLList = new XMLList;
+			[Bindable]private var operators:XMLList = new XMLList;
+			[Bindable]private var phones:XMLList = new XMLList;
+
+			private function payme(event:Event):void{
+				var txt:String=new String();
+				sms_text.text="Для пополнения ox'ов у "+domain+" на "+event.target.selectedItem.income.toString()
+				sms_text.text+=" через "+op_name.selectedLabel+" необходимо отправить SMS с текстом "
+				sms_text.text+="\"#oxnull "+u_id+"\"(без кавычек) на номер "
+				sms_text.text+=event.target.selectedItem.phone.toString()+". Стоимость исходящего "
+				sms_text.text+="сообщения составит "+event.target.selectedItem.price.toString()
+				//Alert.show(event.target.selectedItem.phone.toString());
+			}
+
+			private function init():void{
+				var clientsXML:XML;
+				var loader:URLLoader=new URLLoader();
+				var request:URLRequest=new URLRequest("http://oxnull.net/flex/sms_phone.xml");
+				var variables:URLVariables = new URLVariables();
+				request.method = URLRequestMethod.GET;
+				request.data = variables;
+				loader.load(request);
+				loader.addEventListener(Event.COMPLETE, onCompleteinit);
+
+				function onCompleteinit(event:Event):void{
+					var loader:URLLoader=URLLoader(event.target);
+					clientsXML=new XML(loader.data);
+					countries=clientsXML.children();
+					load_operators();
+				}
+			}
+
+			private function load_operators():void{
+				var clientsXML:XML;
+				var loader:URLLoader=new URLLoader();
+				var request:URLRequest=new URLRequest("http://oxnull.net/flex/sms_phone.xml");
+				var variables:URLVariables = new URLVariables();
+				request.method = URLRequestMethod.GET;
+				variables.country = country.selectedLabel
+				request.data = variables;
+				loader.load(request);
+				loader.addEventListener(Event.COMPLETE, onCompleteop);
+
+				function onCompleteop(event:Event):void{
+					var loader:URLLoader=URLLoader(event.target);
+					clientsXML=new XML(loader.data);
+					operators=clientsXML.children();
+					load_phones();
+				}
+			}
+
+			private function load_phones():void{
+				var clientsXML:XML;
+				var loader:URLLoader=new URLLoader();
+				var request:URLRequest=new URLRequest("http://oxnull.net/flex/sms_phone.xml");
+				var variables:URLVariables = new URLVariables();
+				request.method = URLRequestMethod.GET;
+				variables.country = country.selectedLabel;
+				variables.op_name = op_name.selectedLabel;
+				request.data = variables;
+				loader.load(request);
+				loader.addEventListener(Event.COMPLETE, onCompleteop);
+
+				function onCompleteop(event:Event):void{
+					var loader:URLLoader=URLLoader(event.target);
+					clientsXML=new XML(loader.data);
+					phones=clientsXML.children();
+				}
+			}
+		]]>
+	</mx:Script>
+	<mx:HBox width="100%" horizontalAlign="center">
+		<mx:ComboBox id="country" dataProvider="{countries}" change="load_operators()" maxWidth="170" width="170" rowCount="25" alpha="0.5"></mx:ComboBox>
+		<mx:ComboBox id="op_name" dataProvider="{operators}" change="load_phones()" dropdownWidth="250" width="170" rowCount="20" alpha="0.5"></mx:ComboBox>
+	</mx:HBox>
+	<mx:DataGrid height="100%" dataProvider="{phones}" itemClick="payme(event)">
+		<mx:columns>
+			<mx:DataGridColumn headerText="Телефон" dataField="phone"/>
+			<mx:DataGridColumn headerText="Цена SMS" dataField="price"/>
+			<mx:DataGridColumn headerText="Кол-во ox'ов" dataField="income"/>
+		</mx:columns>
+	</mx:DataGrid>
+	<mx:Text text="" width="100%" id="sms_text" minHeight="60"/>
+
+</mx:VBox>
