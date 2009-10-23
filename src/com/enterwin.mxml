@@ -44,7 +44,9 @@
 							//parentApplication.load_service();
 					}
 					else{
-						Alert.show("Неверный логин или пароль. Убедись, что в поле \"Логин\" вводишь название сайта (твой_логин.oxnull.net)","Ахтунг!");
+						Alert.show("Неверный логин или пароль. Убедись, что в поле \"Логин\" вводишь название сайта (твой_логин.oxnull.net[только часть до oxnull.net])","Ахтунг!");
+						enterbu.enabled=true;
+						enterbu.label='Вход';
 					}
 				}
 			}
@@ -56,7 +58,7 @@
 				<mx:Label text="Логин:"/>
 			</mx:GridItem>
 			<mx:GridItem width="100%" height="100%">
-				<mx:TextInput id="login"/>
+				<mx:TextInput id="login" enter="enter()"/>
 			</mx:GridItem>
 		</mx:GridRow>
 		<mx:GridRow width="100%" height="100%" verticalAlign="middle">
@@ -64,7 +66,7 @@
 				<mx:Label text="Пароль:"/>
 			</mx:GridItem>
 			<mx:GridItem width="100%" height="100%">
-				<mx:TextInput displayAsPassword="true" id="password"/>
+				<mx:TextInput displayAsPassword="true" id="password" enter="enter()"/>
 			</mx:GridItem>
 		</mx:GridRow>
 		<mx:GridRow width="100%" height="100%" verticalAlign="middle">

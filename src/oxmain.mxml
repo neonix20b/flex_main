@@ -20,16 +20,8 @@
 		<mx:ViewStack id="viewstack1" width="514" paddingBottom="0">
 			<mx:TabNavigator width="512" paddingBottom="0" height="565" id="tab_nav">
 				<mx:Panel label="Главная" width="100%" height="100%" layout="horizontal" title="Нуль-кузница: Шаг в будущее с oxnull.net" styleName="panelbg">
-					<mx:Accordion width="100%" height="100%" borderStyle="none">
-						<mx:VBox width="100%" height="100%" label="Что это?">
-							<mx:TextArea width="100%" height="100%" styleSheet="{myCSS}" editable="false" wordWrap="true" enabled="true">
-								<mx:htmlText><![CDATA[	<b>Технологии</b>
-PHP, Perl, Python, Ruby, Mysql]]></mx:htmlText>
-							</mx:TextArea>
-						</mx:VBox>
-						<mx:VBox width="100%" height="100%" label="Зачем оно мне?">
-							<mx:TextArea id="hellotext" width="100%" height="100%" styleSheet="{myCSS}" editable="false" wordWrap="true" enabled="true">
-								<mx:htmlText><![CDATA[	<b>Веб-сайты для всех</b>
+					<mx:TextArea id="hellotext" width="100%" height="100%" styleSheet="{myCSS}" editable="false" wordWrap="true" enabled="true">
+						<mx:htmlText><![CDATA[	<b>Веб-сайты для всех</b>
 Вы думаете создавать сайты сложно? С нуль-кузницей вы легко этому научитесь. Создайте свой собственный сайт используя готовые темы. Добавьте фотографии, картинки, текст, опрос или просто раздвиньте границы возможностей новыми компонентами. Ведь теперь это так просто, можно добавить именно тех функций, что нужны именно вам, и сделать абсолютно уникальный сайт.
 
 	<b>Веб-сайт вашей мечты</b>
@@ -44,9 +36,7 @@ PHP, Perl, Python, Ruby, Mysql]]></mx:htmlText>
 
 	<b>Форум</b>
 Наш <b><a href="http://offtop.oxnull.net" target="_blank">форум</a></b> не только поможет решить технические вопросы, но и найти друзей! Здесь всегда можно найти единомышленников и обсудить насущные проблемы. Но и это не самое главное! А что главное? Да просто присоединяйся и узнаешь :)]]></mx:htmlText>
-							</mx:TextArea>
-						</mx:VBox>
-					</mx:Accordion>
+					</mx:TextArea>
 				</mx:Panel>
 
 				<mx:Panel id="mysite" enabled="false" width="100%" height="100%" label="Мой сайт" layout="vertical" headerHeight="0" borderStyle="none" verticalGap="0">
