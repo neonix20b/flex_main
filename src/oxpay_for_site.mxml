@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" 
+				xmlns:comp="com.*"
+				initialize="init()"
+				layout="vertical" horizontalAlign="center" 
+				verticalAlign="top" backgroundGradientAlphas="[1.0, 1.0]" backgroundGradientColors="[#FFFFFF, #E7E4E4]" backgroundColor="#FFFFFF" xmlns:ns1="com.adobe.flex.extras.controls.*" xmlns:ns2="auto.samples.CustomizeAutoComplete.*" xmlns:ns3="auto.samples.RestaurantFinder.*">
+	<mx:Script>
+		<![CDATA[
+			import com.pay_sms;
+			import mx.managers.BrowserManager;
+			import mx.managers.IBrowserManager;
+			import mx.utils.URLUtil;
+			import mx.controls.Alert;
+
+			[Bindable] private var oxid:String="ox3";
+			[Bindable] private var domain:String="oxnull.net";
+
+			private function init():void{
+				var bm:IBrowserManager;
+				bm = BrowserManager.getInstance();                
+				bm.init();      
+				var o:Object = URLUtil.stringToObject(bm.fragment);       
+				if(o.oxid)oxid=o.oxid;
+				if(o.domain)domain=o.domain;
+				var paysms:pay_sms = new pay_sms();
+				paysms.u_id=oxid;
+				paysms.domain=domain;
+				application.addChild(paysms);
+			}
+		]]>
+	</mx:Script>
+</mx:Application>
