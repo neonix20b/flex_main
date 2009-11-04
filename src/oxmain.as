@@ -48,7 +48,8 @@ private var KEY:String = "HjRUPxRjRUPxRdVDYFdVDFS0HjRUPxRdVDYF6PkFBK3YlXjc";
                 [ {label:rebuildlabel, data:'0'}, 
                   {label:"Сайт", data:'joomla'}, 
                   {label:"Форум", data:'smf'}, 
-                  {label:"Блог", data:'wordpress'}]);
+                  {label:"Блог", data:'wordpress'},
+                  {label:"Пусто", data:'none'}]);
 
 
 public function init():void{

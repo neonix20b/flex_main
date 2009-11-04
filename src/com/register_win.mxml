@@ -9,7 +9,8 @@
 			[Bindable]private var wtfs:ArrayCollection = new ArrayCollection(
                 [ {label:"сайт", data:'joomla'}, 
                   {label:"форум", data:'smf'}, 
-                  {label:"блог", data:'wordpress'}]);
+                  {label:"блог", data:'wordpress'},
+                  {label:"Пусто", data:'none'}]);
 			[Bindable]public var invite:String = new String();
 			private var dBox:IFlexDisplayObject;
 			private var loginb:Boolean = new Boolean(false);

@@ -89,6 +89,6 @@
 			<mx:DataGridColumn headerText="Кол-во ox'ов" dataField="income"/>
 		</mx:columns>
 	</mx:DataGrid>
-	<mx:Text text="" width="100%" id="sms_text" minHeight="60"/>
+	<mx:Text text="Кликните на нужную строку для более подробной информации" width="100%" id="sms_text" minHeight="60"/>
 
 </mx:VBox>
